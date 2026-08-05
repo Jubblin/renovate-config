@@ -5,7 +5,7 @@
     ":dependencyDashboard",
     ":semanticCommits",
     "helpers:pinGitHubActionDigests",
-    "github>jubblin/renovate-config//presets/github"
+    "github>jubblin/renovate-config//presets/github-actions"
   ],
   "labels": ["dependencies"],
   "schedule": ["before 6am on Monday"],
