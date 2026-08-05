@@ -2,10 +2,30 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
+    ":dependencyDashboard",
+    ":semanticCommits",
     "helpers:pinGitHubActionDigests"
   ],
+  "labels": ["dependencies"],
+  "schedule": ["before 6am on Monday"],
   "packageRules": [
     {
+      "description": "Group GitHub Actions updates",
+      "matchManagers": ["github-actions"],
+      "pinDigests": true,
+      "groupName": "github-actions",
+      "commitMessageTopic": "GitHub Actions"
+    },
+    {
+      "description": "Automerge patch/minor GitHub Actions on CI green",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["patch", "digest"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
     }
-  ]
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true
+  }
 }
