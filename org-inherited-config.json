@@ -2,12 +2,19 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:best-practices",
-    ":dependencyDashboard",
-    ":semanticCommits",
+    "docker:pinDigests",
     "helpers:pinGitHubActionDigests",
-    "github>jubblin/renovate-config//presets/github-actions"
+    "github>jubblin/renovate-config//presets/github-actions",
+    ":dependencyDashboard",
+    ":semanticCommits"
+  ],
+  "rebaseWhen": "behind-base-branch",
+  "baseBranchPatterns": [
+    "main"
   ],
   "labels": ["dependencies"],
+  "automerge": true,
+  "automergeStrategy": "merge-commit",
   "schedule": ["before 6am on Monday"],
   "vulnerabilityAlerts": {
     "enabled": true
