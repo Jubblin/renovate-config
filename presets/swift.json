@@ -6,7 +6,6 @@
       "description": "Swift Package Manager (when added)",
       "matchManagers": ["swift"],
       "groupName": "swift-packages"
-    },
+    }
   ]
 }
-    
