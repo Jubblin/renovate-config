@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate Renovate config
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Structure checks
+        run: |
+          set -euo pipefail
+
+          if [[ ! -f org-inherited-config.json ]]; then
+            echo "::error::org-inherited-config.json is required"
+            exit 1
+          fi
+
+          shopt -s nullglob
+          presets=(presets/*.json)
+          if [[ ${#presets[@]} -eq 0 ]]; then
+            echo "::error::At least one presets/*.json file is required"
+            exit 1
+          fi
+
+          schema='https://docs.renovatebot.com/renovate-schema.json'
+          files=(org-inherited-config.json "${presets[@]}")
+
+          for file in "${files[@]}"; do
+            echo "Checking JSON: ${file}"
+            python3 -m json.tool "${file}" > /dev/null
+
+            file_schema="$(python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get('\$schema',''))" "${file}")"
+            if [[ "${file_schema}" != "${schema}" ]]; then
+              echo "::error::${file} must set \"\$schema\" to ${schema}"
+              exit 1
+            fi
+          done
+
+          echo "Structure checks passed (${#files[@]} files)."
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Renovate config validator
+        run: |
+          set -euo pipefail
+
+          shopt -s nullglob
+          files=(org-inherited-config.json presets/*.json)
+
+          for file in "${files[@]}"; do
+            echo "Validating ${file}"
+            # Pin major: unpinned `renovate` can resolve to old majors that lack --no-global.
+            npx --yes --package renovate@44 -- renovate-config-validator --strict --no-global "${file}"
+          done
