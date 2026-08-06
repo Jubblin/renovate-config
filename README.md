@@ -2,6 +2,19 @@
 
 Shareable [Renovate](https://docs.renovatebot.com/) configuration for Jubblin repositories: an org-level inherited config plus named presets under `presets/`.
 
+## Template setup
+
+Force repo to register with Renovate
+
+Either download [renovate.json](https://raw.githubusercontent.com/Jubblin/renovate-config/refs/heads/main/implement/renovate.json) to the root of the repository or copy and paste the following renovate.json file
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "labels": ["baseline"],
+}
+```
+
 ## Consume presets
 
 Extend a preset from another repository's Renovate config:
