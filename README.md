@@ -24,6 +24,7 @@ Extend a preset from another repository's Renovate config:
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>jubblin/renovate-config//presets/github-actions",
+    "github>jubblin/renovate-config//presets/go",
     "github>jubblin/renovate-config//presets/swift"
   ]
 }
@@ -44,6 +45,7 @@ Pin to a released tag once versions exist:
 | Path | Purpose |
 | --- | --- |
 | `presets/github-actions.json` | Group and automerge GitHub Actions updates |
+| `presets/go.json` | Group Go module updates and run `go mod tidy` (`gomodTidy`) after updates |
 | `presets/swift.json` | Group Swift Package Manager updates |
 
 ## Org inherited config

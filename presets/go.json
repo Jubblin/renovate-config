@@ -1,0 +1,19 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "labels": ["go"],
+  "postUpdateOptions": ["gomodTidy", "gomodUpdateImportPaths"],
+  "packageRules": [
+    {
+      "description": "Group Go module updates (minor/patch)",
+      "matchManagers": ["gomod"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "go-modules"
+    },
+    {
+      "description": "Keep the Go toolchain/directive updates separate",
+      "matchManagers": ["gomod"],
+      "matchDepTypes": ["golang"],
+      "groupName": "go-toolchain"
+    }
+  ]
+}
