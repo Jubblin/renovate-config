@@ -5,6 +5,7 @@
     "docker:pinDigests",
     "helpers:pinGitHubActionDigests",
     "github>jubblin/renovate-config//presets/github-actions",
+    "github>jubblin/renovate-config//presets/go",
     ":dependencyDashboard",
     ":semanticCommits"
   ],
